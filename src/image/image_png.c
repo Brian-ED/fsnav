@@ -16,6 +16,7 @@ BSD license. See COPYING for more details.
 #include <png.h>
 #include "color_bits.h"
 #include "util.h"
+#include <string.h>
 
 #define FILE_SIG_BYTES	8
 
@@ -56,7 +57,7 @@ void *load_png(FILE *fp, int *xsz, int *ysz)
 	
 	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_BGR, 0);
 		
-	png_get_IHDR(png_ptr, info_ptr, &img_x, &img_y, &channel_bits, &color_type, &ilace_type, &compression, &filtering);
+	png_get_IHDR(png_ptr, info_ptr, (png_uint_32 *)(&img_x), (png_uint_32 *)(&img_y), &channel_bits, &color_type, &ilace_type, &compression, &filtering);
 	*xsz = img_x;
 	*ysz = img_y;
 	pixels = malloc(*xsz * *ysz * sizeof(uint32_t));
